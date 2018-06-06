@@ -1,6 +1,6 @@
-# 蜀道难
-## 【作者】李白  【朝代】唐
-<center>噫吁嚱，危乎高哉！</center>
+## 蜀道难
+* 【作者】李白  【朝代】唐
+<center> 噫吁嚱，危乎高哉！ </center>
 <center>蜀道之难，难于上青天！</center>
 <center>蚕丛及鱼凫，开国何茫然！</center>
 <center>尔来四万八千岁，不与秦塞通人烟。</center>
