@@ -6,7 +6,7 @@ To start understanding the PostgreSQL basics, first let us install the PostgreSQ
 
 Follow the given steps to install PostgreSQL on your Linux machine. Make sure you are logged in as root before you proceed for the installation.
 
-* Pick the version number of PostgreSQL you want and, as exactly as possible, the platform you want from EnterpriseDB
+* Pick the version number of PostgreSQL you want and, as exactly as possible, the platform you want from [EnterpriseDB]<https://www.enterprisedb.com/products-services-training/pgdownload>
 
 * I downloaded postgresql-9.2.4-1-linux-x64.run for my 64 bit CentOS-6 machine. Now, let us execute it as follows −
 ```shell
