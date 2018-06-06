@@ -1,4 +1,4 @@
-[libpqxx](libpqxx.png)
+![libpqxx](libpqxx.png)
 
 This tutorial is going to use libpqxx library, which is the official C++ client API for PostgreSQL. The source code for libpqxx is available under the BSD license, so you are free to download it, pass it on to others, change it, sell it, include it in your own code, and share your changes with anyone you choose.
 
