@@ -49,3 +49,11 @@ Stopping postgresql service:                               [  OK  ]
 Starting postgresql service:                               [  OK  ]
 ```
 * If your installation was correct, you will have PotsgreSQL prompt test=# as shown above.
+
+# Installing PostgreSQL on Windows
+
+Follow the given steps to install PostgreSQL on your Windows machine. Make sure you have turned Third Party Antivirus off while installing.
+
+* Pick the version number of PostgreSQL you want and, as exactly as possible, the platform you want from [EnterpriseDB]<https://www.enterprisedb.com/products-services-training/pgdownload>
+
+* I downloaded postgresql-9.2.4-1-windows.exe for my Windows PC running in 32bit mode, so let us run postgresql-9.2.4-1-windows.exe as administrator to install PostgreSQL. Select the location where you want to install it. By default, it is installed within Program Files folder.
