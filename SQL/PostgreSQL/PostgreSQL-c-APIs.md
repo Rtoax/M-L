@@ -44,18 +44,18 @@ If connection is setup successfully then it creates C with connection object whi
 The method is_open is a public method of connection object and returns boolean value. If connection is active, then this method returns true otherwise it returns false.
 
 ## 3	
-*C.disconnect
+* C.disconnect
 
 This method is used to disconnect an opened database connection.
 
 ## 4	
-*pqxx::work WCC
+* pqxx::work WCC
 
 This is a typedef which will be used to create a transactional object using connection C, which ultimately will be used to execute SQL statements in transactional mode.
 If transaction object gets created successfully, then it is assigned to variable W which will be used to access public methods related to transactional object.
 
 ## 5	
-*W.execconst std::string & sqlconst std::string & sql
+* W.execconst std::string & sqlconst std::string & sql
 
 This public method from transactional object will be used to execute SQL statement.
 
