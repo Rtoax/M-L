@@ -1,4 +1,5 @@
 [link: ]<https://www.tutorialspoint.com/cgi-bin/printpage.cgi>
+
 To start understanding the PostgreSQL basics, first let us install the PostgreSQL. This chapter explains about installing the PostgreSQL on Linux, Windows and Mac OS platforms.
 
 # Installing PostgreSQL on Linux/Unix
