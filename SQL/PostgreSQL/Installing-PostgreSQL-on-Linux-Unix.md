@@ -4,12 +4,13 @@ To start understanding the PostgreSQL basics, first let us install the PostgreSQ
 
 Follow the given steps to install PostgreSQL on your Linux machine. Make sure you are logged in as root before you proceed for the installation.
 
-Pick the version number of PostgreSQL you want and, as exactly as possible, the platform you want from EnterpriseDB
+* Pick the version number of PostgreSQL you want and, as exactly as possible, the platform you want from EnterpriseDB
 
-I downloaded postgresql-9.2.4-1-linux-x64.run for my 64 bit CentOS-6 machine. Now, let us execute it as follows −
-
+* I downloaded postgresql-9.2.4-1-linux-x64.run for my 64 bit CentOS-6 machine. Now, let us execute it as follows −
+```shell
 [root@host]# chmod +x postgresql-9.2.4-1-linux-x64.run
 [root@host]# ./postgresql-9.2.4-1-linux-x64.run
+
 ------------------------------------------------------------------------
 Welcome to the PostgreSQL Setup Wizard.
 
@@ -17,8 +18,9 @@ Welcome to the PostgreSQL Setup Wizard.
 Please specify the directory where PostgreSQL will be installed.
 
 Installation Directory [/opt/PostgreSQL/9.2]:
-Once you launch the installer, it asks you a few basic questions like location of the installation, password of the user who will use database, port number, etc. So keep all of them at their default values except password, which you can provide password as per your choice. It will install PostgreSQL at your Linux machine and will display the following message −
-
+```
+* Once you launch the installer, it asks you a few basic questions like location of the installation, password of the user who will use database, port number, etc. So keep all of them at their default values except password, which you can provide password as per your choice. It will install PostgreSQL at your Linux machine and will display the following message −
+```shell
 Please wait while Setup installs PostgreSQL on your computer.
 
  Installing
@@ -27,8 +29,9 @@ Please wait while Setup installs PostgreSQL on your computer.
 
 -----------------------------------------------------------------------
 Setup has finished installing PostgreSQL on your computer.
-Follow the following post-installation steps to create your database −
-
+```
+* Follow the following post-installation steps to create your database −
+```shell
 [root@host]# su - postgres
 Password:
 bash-4.1$ createdb testdb
@@ -36,9 +39,11 @@ bash-4.1$ psql testdb
 psql (8.4.13, server 9.2.4)
 
 test=#
-You can start/restart postgres server in case it is not running using the following command −
-
+```
+* You can start/restart postgres server in case it is not running using the following command −
+```shell
 [root@host]# service postgresql restart
 Stopping postgresql service:                               [  OK  ]
 Starting postgresql service:                               [  OK  ]
-If your installation was correct, you will have PotsgreSQL prompt test=# as shown above.
+```
+* If your installation was correct, you will have PotsgreSQL prompt test=# as shown above.
