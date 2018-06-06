@@ -1,0 +1,501 @@
+
+<!doctype html> 
+<head>
+<meta charset="utf-8">
+<title>PostgreSQL - C/C++ Interface</title>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<base href="https://www.tutorialspoint.com" />
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+tex2jax: { inlineMath: [["$","$"],["\(","\)"]] },
+"HTML-CSS": {
+  linebreaks: { automatic: true, width: "container" }          
+}              
+});
+</script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script>
+<script type="text/javascript" src="/scripts/jquery.min.js"></script>
+<script type="text/javascript" src="/scripts/jquery-ui.min.js"></script>
+<link  rel="stylesheet" href="/scripts/jquery-ui.css"/>
+<link rel="stylesheet" type="text/css" href="/scripts/print.css" />
+<link rel="stylesheet" type="text/css" href="/scripts/prettify.css" />
+<script type="text/javascript" src="/scripts/prettify.js"></script>
+</head>
+<body onload="prettyPrint()">
+<div id="print-wrapper">
+   <div id="print-area-wrapper">
+      <div class="clearfix" id="actual-print-area">
+<div class="row">
+             <h1 class="title">PostgreSQL - C/C++ Interface</h1>
+             <a href="https://www.tutorialspoint.com/postgresql/postgresql_c_cpp.htm" id="print-source">https://www.tutorialspoint.com/postgresql/postgresql_c_cpp.htm</a><div id="page-print-copy">Copyright &copy; tutorialspoint.com</div>
+             <div style="clear:both"></div>
+             <br>
+	     <div id="page-content">
+<p>This tutorial is going to use <b>libpqxx</b> library, which is the official C++ client API for PostgreSQL. The source code for libpqxx is available under the BSD license, so you are free to download it, pass it on to others, change it, sell it, include it in your own code, and share your changes with anyone you choose.</p>
+<h2>Installation</h2>
+<p>The the latest version of libpqxx is available to be downloaded from the link <a href="http://pqxx.org/download/software/libpqxx/" target="_blank" rel="nofollow">Download Libpqxx</a>. So download the latest version and follow the following steps &minus;</p>
+<pre class="prettyprint notranslate">
+wget http://pqxx.org/download/software/libpqxx/libpqxx-4.0.tar.gz
+tar xvfz libpqxx-4.0.tar.gz
+cd libpqxx-4.0
+./configure
+make
+make install
+</pre>
+<p>Before you start using C/C++ PostgreSQL interface, find the <b>pg_hba.conf</b> file in your PostgreSQL installation directory and add the following line &minus;</p>
+<pre class="prettyprint notranslate">
+# IPv4 local connections:
+host    all         all         127.0.0.1/32          md5
+</pre>
+<p>You can start/restart postgres server in case it is not running using the following command &minus;</p>
+<pre class="prettyprint notranslate">
+[root@host]# service postgresql restart
+Stopping postgresql service:                               [  OK  ]
+Starting postgresql service:                               [  OK  ]
+</pre>
+<h2>C/C++ Interface APIs</h2>
+<p>The following are important interface routines which can sufice your requirement to work with PostgreSQL database from your C/C++ program. If you are looking for a more sophisticated application then you can look into the libpqxx official documentation, or you can use commercially available APIs.</p>
+<table class="table table-bordered">
+<tr>
+<th style="width:11%">S. No.</th>
+<th style="text-align:center;">API &amp; Description</th>
+</tr>
+<tr>
+<td style="text-align:center;vertical-align:middle;">1</td>
+<td><p><b>pqxx::connection C( const std::string &amp; dbstring )</b></p>
+<p>This is a typedef which will be used to connect to the database. Here, dbstring provides required parameters to connect to the datbase, for example <b>dbname = testdb user = postgres password=pass123 hostaddr=127.0.0.1 port=5432</b>.</p>
+<p>If connection is setup successfully then it creates C with connection object which provides various useful function public function.</p>
+</td>
+</tr>
+<tr>
+<td style="text-align:center;vertical-align:middle;">2</td>
+<td><p><b>C.is_open()</b></p>
+<p>The method is_open() is a public method of connection object and returns boolean value. If connection is active, then this method returns true otherwise it returns false.</p>
+</td>
+</tr>
+<tr>
+<td style="text-align:center;vertical-align:middle;">3</td>
+<td><p><b>C.disconnect()</b></p>
+<p>This method is used to disconnect an opened database connection.</p>
+</td>
+</tr>
+<tr>
+<td style="text-align:center;vertical-align:middle;">4</td>
+<td><p><b>pqxx::work W( C )</b></p>
+<p>This is a typedef which will be used to create a transactional object using connection C, which ultimately will be used to execute SQL statements in transactional mode.</p>
+<p>If transaction object gets created successfully, then it is assigned to variable W which will be used to access public methods related to transactional object.</p>
+</td>
+</tr>
+<tr>
+<td style="text-align:center;vertical-align:middle;">5</td>
+<td>
+<p><b>W.exec(const std::string &amp; sql)</b></p>
+<p>This public method from transactional object will be used to execute SQL statement.</p></p></td>
+</tr>
+<tr>
+<td style="text-align:center;vertical-align:middle;">6</td>
+<td>
+<p><b>W.commit()</b></p>
+<p>This public method from transactional object will be used to commit the transaction.</p></p></td>
+</tr>
+<tr>
+<td style="text-align:center;vertical-align:middle;">7</td>
+<td>
+<p><b>W.abort()</b></p>
+<p>This public method from transactional object will be used to rollback the transaction.</p></p></td>
+</tr>
+<tr>
+<td style="text-align:center;vertical-align:middle;">8</td>
+<td><p><b>pqxx::nontransaction N( C )</b></p>
+<p>This is a typedef which will be used to create a non-transactional object using connection C, which ultimately will be used to execute SQL statements in non-transactional mode.</p>
+<p>If transaction object gets created successfully, then it is assigned to variable N which will be used to access public methods related to non-transactional object.</p>
+</td>
+</tr>
+<tr>
+<td style="text-align:center;vertical-align:middle;">9</td>
+<td><p><b>N.exec(const std::string &amp; sql)</b></p>
+<p>This public method from non-transactional object will be used to execute SQL statement and returns a result object which is actually an interator holding all the returned records.</p>
+</td>
+</tr>
+</table>
+<h2>Connecting To Database</h2>
+<p>The following C code segment shows how to connect to an existing database running on local machine at port 5432. Here, I used backslash \ for line continuation.</p>
+<pre class="prettyprint notranslate">
+#include &lt;iostream&gt;
+#include &lt;pqxx/pqxx&gt; 
+
+using namespace std;
+using namespace pqxx;
+
+int main(int argc, char* argv[]) {
+   try {
+      connection C("dbname = testdb user = postgres password = cohondob \
+      hostaddr = 127.0.0.1 port = 5432");
+      if (C.is_open()) {
+         cout &lt;&lt; "Opened database successfully: " &lt;&lt; C.dbname() &lt;&lt; endl;
+      } else {
+         cout &lt;&lt; "Can't open database" &lt;&lt; endl;
+         return 1;
+      }
+      C.disconnect ();
+   } catch (const std::exception &amp;e) {
+      cerr &lt;&lt; e.what() &lt;&lt; std::endl;
+      return 1;
+   }
+}
+</pre>
+<p>Now, let us compile and run the above program to connect to our database <b>testdb</b>, which is already available in your schema and can be accessed using user <i>postgres</i> and password <i>pass123</i>.</p>
+<p>You can use the user ID and password based on your database setting. Remember to keep the -lpqxx and -lpq in the given order! Otherwise, the linker will complain bitterly about the missing functions with names starting with "PQ."</p>
+<pre class="prettyprint notranslate">
+$g++ test.cpp -lpqxx -lpq
+$./a.out
+Opened database successfully: testdb
+</pre>
+<h2>Create a Table</h2>
+<p>The following C code segment will be used to create a table in previously created database &minus;</p>
+<pre class="prettyprint notranslate">
+#include &lt;iostream&gt;
+#include &lt;pqxx/pqxx&gt; 
+
+using namespace std;
+using namespace pqxx;
+
+int main(int argc, char* argv[]) {
+   char * sql;
+   
+   try {
+      connection C("dbname = testdb user = postgres password = cohondob \
+      hostaddr = 127.0.0.1 port = 5432");
+      if (C.is_open()) {
+         cout &lt;&lt; "Opened database successfully: " &lt;&lt; C.dbname() &lt;&lt; endl;
+      } else {
+         cout &lt;&lt; "Can't open database" &lt;&lt; endl;
+         return 1;
+      }
+
+      /* Create SQL statement */
+      sql = "CREATE TABLE COMPANY("  \
+      "ID INT PRIMARY KEY     NOT NULL," \
+      "NAME           TEXT    NOT NULL," \
+      "AGE            INT     NOT NULL," \
+      "ADDRESS        CHAR(50)," \
+      "SALARY         REAL );";
+
+      /* Create a transactional object. */
+      work W(C);
+      
+      /* Execute SQL query */
+      W.exec( sql );
+      W.commit();
+      cout &lt;&lt; "Table created successfully" &lt;&lt; endl;
+      C.disconnect ();
+   } catch (const std::exception &amp;e) {
+      cerr &lt;&lt; e.what() &lt;&lt; std::endl;
+      return 1;
+   }
+
+   return 0;
+}
+</pre>
+<p>When the above given program is compiled and executed, it will create COMPANY table in your testdb database and will display the following statements &minus;</p>
+<pre class="result notranslate">
+Opened database successfully: testdb
+Table created successfully
+</pre>
+<h2>INSERT Operation</h2>
+<p>The following C code segment shows how we can create records in our COMPANY table created in above example &minus;</p>
+<pre class="prettyprint notranslate">
+#include &lt;iostream&gt;
+#include &lt;pqxx/pqxx&gt; 
+
+using namespace std;
+using namespace pqxx;
+
+int main(int argc, char* argv[]) {
+   char * sql;
+   
+   try {
+      connection C("dbname = testdb user = postgres password = cohondob \
+      hostaddr = 127.0.0.1 port = 5432");
+      if (C.is_open()) {
+         cout &lt;&lt; "Opened database successfully: " &lt;&lt; C.dbname() &lt;&lt; endl;
+      } else {
+         cout &lt;&lt; "Can't open database" &lt;&lt; endl;
+         return 1;
+      }
+
+      /* Create SQL statement */
+      sql = "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) "  \
+         "VALUES (1, 'Paul', 32, 'California', 20000.00 ); " \
+         "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) "  \
+         "VALUES (2, 'Allen', 25, 'Texas', 15000.00 ); "     \
+         "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)" \
+         "VALUES (3, 'Teddy', 23, 'Norway', 20000.00 );" \
+         "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)" \
+         "VALUES (4, 'Mark', 25, 'Rich-Mond ', 65000.00 );";
+
+      /* Create a transactional object. */
+      work W(C);
+      
+      /* Execute SQL query */
+      W.exec( sql );
+      W.commit();
+      cout &lt;&lt; "Records created successfully" &lt;&lt; endl;
+      C.disconnect ();
+   } catch (const std::exception &amp;e) {
+      cerr &lt;&lt; e.what() &lt;&lt; std::endl;
+      return 1;
+   }
+
+   return 0;
+}
+</pre>
+<p>When the above given program is compiled and executed, it will create given records in COMPANY table and will display the following two lines &minus;</p>
+<pre class="result notranslate">
+Opened database successfully: testdb
+Records created successfully
+</pre>
+<h2>SELECT Operation</h2>
+<p>The following C code segment shows how we can fetch and display records from our COMPANY table created in above example &minus;</p>
+<pre class="prettyprint notranslate">
+#include &lt;iostream&gt;
+#include &lt;pqxx/pqxx&gt; 
+
+using namespace std;
+using namespace pqxx;
+
+int main(int argc, char* argv[]) {
+   char * sql;
+   
+   try {
+      connection C("dbname = testdb user = postgres password = cohondob \
+      hostaddr = 127.0.0.1 port = 5432");
+      if (C.is_open()) {
+         cout &lt;&lt; "Opened database successfully: " &lt;&lt; C.dbname() &lt;&lt; endl;
+      } else {
+         cout &lt;&lt; "Can't open database" &lt;&lt; endl;
+         return 1;
+      }
+
+      /* Create SQL statement */
+      sql = "SELECT * from COMPANY";
+
+      /* Create a non-transactional object. */
+      nontransaction N(C);
+      
+      /* Execute SQL query */
+      result R( N.exec( sql ));
+      
+      /* List down all the records */
+      for (result::const_iterator c = R.begin(); c != R.end(); ++c) {
+         cout &lt;&lt; "ID = " &lt;&lt; c[0].as&lt;int&gt;() &lt;&lt; endl;
+         cout &lt;&lt; "Name = " &lt;&lt; c[1].as&lt;string&gt;() &lt;&lt; endl;
+         cout &lt;&lt; "Age = " &lt;&lt; c[2].as&lt;int&gt;() &lt;&lt; endl;
+         cout &lt;&lt; "Address = " &lt;&lt; c[3].as&lt;string&gt;() &lt;&lt; endl;
+         cout &lt;&lt; "Salary = " &lt;&lt; c[4].as&lt;float&gt;() &lt;&lt; endl;
+      }
+      cout &lt;&lt; "Operation done successfully" &lt;&lt; endl;
+      C.disconnect ();
+   } catch (const std::exception &amp;e) {
+      cerr &lt;&lt; e.what() &lt;&lt; std::endl;
+      return 1;
+   }
+
+   return 0;
+}
+</pre>
+<p>When the above given program is compiled and executed, it will produce the following result &minus;</p>
+<pre class="result notranslate">
+Opened database successfully: testdb
+ID = 1
+Name = Paul
+Age = 32
+Address = California
+Salary = 20000
+ID = 2
+Name = Allen
+Age = 25
+Address = Texas
+Salary = 15000
+ID = 3
+Name = Teddy
+Age = 23
+Address = Norway
+Salary = 20000
+ID = 4
+Name = Mark
+Age = 25
+Address = Rich-Mond
+Salary = 65000
+Operation done successfully
+</pre>
+<h2>UPDATE Operation</h2>
+<p>The following C code segment shows how we can use the UPDATE statement to update any record and then fetch and display updated records from our COMPANY table &minus;</p>
+<pre class="prettyprint notranslate">
+#include &lt;iostream&gt;
+#include &lt;pqxx/pqxx&gt; 
+
+using namespace std;
+using namespace pqxx;
+
+int main(int argc, char* argv[]) {
+   char * sql;
+   
+   try {
+      connection C("dbname = testdb user = postgres password = cohondob \
+      hostaddr = 127.0.0.1 port = 5432");
+      if (C.is_open()) {
+         cout &lt;&lt; "Opened database successfully: " &lt;&lt; C.dbname() &lt;&lt; endl;
+      } else {
+         cout &lt;&lt; "Can't open database" &lt;&lt; endl;
+         return 1;
+      }
+      
+      /* Create a transactional object. */
+      work W(C);
+      /* Create  SQL UPDATE statement */
+      sql = "UPDATE COMPANY set SALARY = 25000.00 where ID=1";
+      /* Execute SQL query */
+      W.exec( sql );
+      W.commit();
+      cout &lt;&lt; "Records updated successfully" &lt;&lt; endl;
+      
+      /* Create SQL SELECT statement */
+      sql = "SELECT * from COMPANY";
+
+      /* Create a non-transactional object. */
+      nontransaction N(C);
+      
+      /* Execute SQL query */
+      result R( N.exec( sql ));
+      
+      /* List down all the records */
+      for (result::const_iterator c = R.begin(); c != R.end(); ++c) {
+         cout &lt;&lt; "ID = " &lt;&lt; c[0].as&lt;int&gt;() &lt;&lt; endl;
+         cout &lt;&lt; "Name = " &lt;&lt; c[1].as&lt;string&gt;() &lt;&lt; endl;
+         cout &lt;&lt; "Age = " &lt;&lt; c[2].as&lt;int&gt;() &lt;&lt; endl;
+         cout &lt;&lt; "Address = " &lt;&lt; c[3].as&lt;string&gt;() &lt;&lt; endl;
+         cout &lt;&lt; "Salary = " &lt;&lt; c[4].as&lt;float&gt;() &lt;&lt; endl;
+      }
+      cout &lt;&lt; "Operation done successfully" &lt;&lt; endl;
+      C.disconnect ();
+   } catch (const std::exception &amp;e) {
+      cerr &lt;&lt; e.what() &lt;&lt; std::endl;
+      return 1;
+   }
+
+   return 0;
+}
+</pre>
+<p>When the above given program is compiled and executed, it will produce the following result &minus;</p>
+<pre class="result notranslate">
+Opened database successfully: testdb
+Records updated successfully
+ID = 2
+Name = Allen
+Age = 25
+Address = Texas
+Salary = 15000
+ID = 3
+Name = Teddy
+Age = 23
+Address = Norway
+Salary = 20000
+ID = 4
+Name = Mark
+Age = 25
+Address = Rich-Mond
+Salary = 65000
+ID = 1
+Name = Paul
+Age = 32
+Address = California
+Salary = 25000
+Operation done successfully
+</pre>
+<h2>DELETE Operation</h2>
+<p>The following C code segment shows how we can use the DELETE statement to delete any record and then fetch and display remaining records from our COMPANY table &minus;</p>
+<pre class="prettyprint notranslate">
+#include &lt;iostream&gt;
+#include &lt;pqxx/pqxx&gt; 
+
+using namespace std;
+using namespace pqxx;
+
+int main(int argc, char* argv[]) {
+   char * sql;
+   
+   try {
+      connection C("dbname = testdb user = postgres password = cohondob \
+      hostaddr = 127.0.0.1 port = 5432");
+      if (C.is_open()) {
+         cout &lt;&lt; "Opened database successfully: " &lt;&lt; C.dbname() &lt;&lt; endl;
+      } else {
+         cout &lt;&lt; "Can't open database" &lt;&lt; endl;
+         return 1;
+      }
+      
+      /* Create a transactional object. */
+      work W(C);
+      /* Create  SQL DELETE statement */
+      sql = "DELETE from COMPANY where ID = 2";
+      /* Execute SQL query */
+      W.exec( sql );
+      W.commit();
+      cout &lt;&lt; "Records deleted successfully" &lt;&lt; endl;
+      
+      /* Create SQL SELECT statement */
+      sql = "SELECT * from COMPANY";
+
+      /* Create a non-transactional object. */
+      nontransaction N(C);
+      
+      /* Execute SQL query */
+      result R( N.exec( sql ));
+      
+      /* List down all the records */
+      for (result::const_iterator c = R.begin(); c != R.end(); ++c) {
+         cout &lt;&lt; "ID = " &lt;&lt; c[0].as&lt;int&gt;() &lt;&lt; endl;
+         cout &lt;&lt; "Name = " &lt;&lt; c[1].as&lt;string&gt;() &lt;&lt; endl;
+         cout &lt;&lt; "Age = " &lt;&lt; c[2].as&lt;int&gt;() &lt;&lt; endl;
+         cout &lt;&lt; "Address = " &lt;&lt; c[3].as&lt;string&gt;() &lt;&lt; endl;
+         cout &lt;&lt; "Salary = " &lt;&lt; c[4].as&lt;float&gt;() &lt;&lt; endl;
+      }
+      cout &lt;&lt; "Operation done successfully" &lt;&lt; endl;
+      C.disconnect ();
+   } catch (const std::exception &amp;e) {
+      cerr &lt;&lt; e.what() &lt;&lt; std::endl;
+      return 1;
+   }
+
+   return 0;
+}
+</pre>
+<p>When the above given program is compiled and executed, it will produce the following result &minus;</p>
+<pre class="result notranslate">
+Opened database successfully: testdb
+Records deleted successfully
+ID = 3
+Name = Teddy
+Age = 23
+Address = Norway
+Salary = 20000
+ID = 4
+Name = Mark
+Age = 25
+Address = Rich-Mond
+Salary = 65000
+ID = 1
+Name = Paul
+Age = 32
+Address = California
+Salary = 25000
+Operation done successfully
+</pre>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+</body>
+</html>
