@@ -15,7 +15,7 @@ $ psql testdb
 testdb=#
 ```
 之后你就会一直在testdb=#下操作，当一个语句没有写完时为“testdb-#”，写完时为“testdb=#”，写完的标志为语句以“;”结束。
-## 简单的数据库操作
+## 二.简单的数据库操作
 * 创建一个TABLE
 ```sql
 create table t(
