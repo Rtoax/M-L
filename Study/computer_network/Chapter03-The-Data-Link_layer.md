@@ -433,7 +433,13 @@ void disable_network_layer(void);
 ## 乌托邦式的单工协议的实现
 
 ```c
-/*protocol 1 (Utopia) privides for data transmission in one direction only, from sender to receiver. The communication channel is assumed to be error free and the receiver  is assumed to be able to process all the input infinitely quickly. Consequently, the sender just sits in a loop pumping data out onto the line ad fast ad it can.*/
+/**
+ * Protocol 1 (Utopia) privides for data transmission in one direction only, 
+ * from sender to receiver. The communication channel is assumed to be error
+ * free and the receiver  is assumed to be able to process all the input 
+ * infinitely quickly. Consequently, the sender just sits in a loop pumping 
+ * data out onto the line ad fast ad it can.
+ */
  
 typedef enum{frame_arrival}event_type;
 #include "protocol.h"
@@ -483,7 +489,15 @@ A Simplex Stop-and-WaitProtocol for a Error-Free Channel
 ## 无错信道上的单工停等协议（实现）
 
 ```c
-/*protocol 2 (stop-and-wait) also privides for a one-directional flow of data from sender to receiver. The communication channel is once ageain assumed to be error free, as inprotocol 1. However, this time the receiver has only a finite buffer capacity and a finite processing speed, so the protocol mast explicitly prevent the sender from flooding the receiver with data faster than it can be handled.*/
+/**
+ * protocol 2 (stop-and-wait) also privides for a one-directional 
+ * flow of data from sender to receiver. The communication channel
+ * is once ageain assumed to be error free, as inprotocol 1.
+ * However, this time the receiver has only a finite buffer capacity
+ * and a finite processing speed, so the protocol mast explicitly 
+ * prevent the sender from flooding the receiver with data faster 
+ * than it can be handled.
+ */
  
 typedef enum{frame_arrival}event_type;
 #include "protocol.h"
@@ -653,14 +667,3 @@ A positive acknowledgement with retransmission protocol
 * PC 机向路由器发送一系列的LCP 分组（封装成多个PPP 帧）。
 * 这些分组及其响应选择一些PPP 参数，和进行网络层配置，NCP 给新接入的PC机分配一个临时的IP 地址，使PC 机成为因特网上的一个主机。
 * 通信完毕时，NCP 释放网络层连接，收回原来分配出去的IP 地址。接着，LCP 释放数据链路层连接。最后释放的是物理层的连接。
-
-
-
-
-
-
-
-
-
-
-
