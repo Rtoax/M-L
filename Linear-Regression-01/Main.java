@@ -3,6 +3,8 @@
  *    solution:y[] = a*x[] + b 
  * 
  *        2018.04: rongtao 
+ *
+ * Copyright (C) RongTao, All right reserve.
  */  
 import javax.swing.*;  
 import java.awt.*;  
